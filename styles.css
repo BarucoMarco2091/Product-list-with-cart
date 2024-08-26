@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@300..700&display=swap');
+
+:root {
+    --red: hsl(14, 86%, 42%);
+    --green: hsl(159, 69%, 38%);
+    --rose-50: hsl(20, 50%, 98%);
+    --rose-100: hsl(13, 31%, 94%);
+    --rose-300: hsl(14, 25%, 72%);
+    --rose-400: hsl(7, 20%, 60%);
+    --rose-500: hsl(12, 20%, 44%);
+    --rose-900: hsl(14, 65%, 9%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: var(--rose-100);
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.container h1 {
+    margin-top: 20px;
+    margin-left: 30px;
+    font-family: 'Red Hat Text', sans-serif, serif;
+}
+
+.container .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 100px;
+    margin-left: 30px;
+    margin-right: 30px;
+    gap: 10px;
+}
+
+.container .card .card-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.container .card .card-button {
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    height: 30px;
+    border-radius: 20px;
+}
+
+.container .card .card-button:hover {
+    background-color: var(--red);
+}
+
+.container .card .card-title {
+    font-size: 16px;
+    font-family: 'Red Hat Text', sans-serif, serif;
+    color: var(--rose-300);
+}
+
+.container .card .card-description {
+    font-family: 'Red Hat Text', sans-serif, serif;
+    font-size: 16px;
+    color: var(--rose-900);
+}
+
+.container .card .card-price {
+    font-family: 'Red Hat Text';
+    color: var(--red);
+}
+
+#carrinho {
+    display: block;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 250px;
+    height: auto;
+    background-color: var(--rose-50);
+    border-radius: 10px;
+}
+
+footer p {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width:768px) {
+    .container .card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width:480px) {
+    .container .card-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
