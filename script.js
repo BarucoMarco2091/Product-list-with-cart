@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const desserts = [
         {
             "image": {
@@ -99,12 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
             "category": "Panna Cotta",
             "price": 6.50
         }
-    ]
+    ];
 
+    let total = 0;
+    const cartItems = {}; // Objeto para armazenar os itens do carrinho
     const sobremesa = document.querySelector('.container'); // Seleciona o container principal
     const cardGrid = document.createElement('div'); // Cria um único card-grid para todos os cards
     cardGrid.className = 'card-grid';
-    desserts.forEach(function myList(item) {
+    desserts.forEach((item) => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
@@ -112,9 +115,86 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3 class="card-title">${item.name}</h3>
             <p class="card-description">${item.category}</p>
             <button class="card-button">Add to cart</button>
-            <span class="card-price">R$ ${item.price.toFixed(2)}</span>
+            <span class="card-price">R$ ${item.price.toFixed(2).replace(".", ",")}</span>
             `;
         cardGrid.appendChild(card); // Adiciona cada card ao card-grid
     });
     sobremesa.appendChild(cardGrid); // Adiciona o card-grid ao container principal
+
+    document.querySelectorAll('.card-button').forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+
+    function addToCart(event) {
+        // use event.target para identificar qual botão foi clicado
+        const buttonClicked = event.target;
+        const productCard = buttonClicked.closest('.card'); // Assume que os produtos estão dentro de um elemento com classe 'card'
+
+        // Agora capture os elementos dentro desse card específico
+        const price = parseFloat(productCard.querySelector('.card-price').innerText.replace("R$", "").replace(",", "."));
+        const title = productCard.querySelector('.card-title').innerText;
+
+        // Verifica se o item já está no carrinho
+        if(cartItems[title]) {
+            cartItems[title].quantity += 1;
+        } else {
+            cartItems[title] = {
+                price: price,
+                quantity: 1
+            };
+
+            const cart = document.querySelector('#cart');
+            const newCart = document.createElement('div');
+            newCart.className = 'cart-item';
+            newCart.innerHTML = `
+                <div class="cart-item">
+                    <span class="product-identification">
+                        <strong class="card-title">${title}</strong>
+                    </span>
+                    <span>
+                        <span class="card-price">R$ ${price.toFixed(2).replace(".", ",")}</span>
+                    </span>
+                    <span>
+                        <input type="number" value="1" min="1" class="quantity-input" id="quantity-${title.replace(/\s+/g, '-').toLowerCase()}" name="quantity-${title.replace(/\s+/g, '-').toLowerCase()}">
+                        <button class="remove-button">Remover</button>
+                    </span>
+                </div>
+            `;
+            cart.appendChild(newCart);
+
+            // Adiciona o evento de remoção e atualização ao novo botão de remoção
+            const removeButton = newCart.querySelector('.remove-button');
+            removeButton.addEventListener('click', () => removeOfCart(title));
+
+            const quantityInput = newCart.querySelector('.quantity-input');
+            quantityInput.addEventListener('change', (event) => updateQuantity(title, event.target.value));
+        };
+
+        updateTotal(); // Chama a função updateTotal dentro da função addToCart
+    }
+
+    function removeOfCart(title) {
+        delete cartItems[title];
+        document.querySelector(`#quantity-${title.replace(/\s+/g, '-').toLowerCase()}`).closest('.cart-item').remove();
+        updateTotal();
+    };
+
+    function updateQuantity(title, quantity) {
+        cartItems[title].quantity = parseInt(quantity);
+        updateTotal();
+    }
+
+    function updateTotal() {
+        total = 0;
+        for(let title in cartItems) {
+            const item = cartItems[title];
+            total += item.price * item.quantity;
+        }
+        const formattedTotal = total.toFixed(2).replace(".", ",");
+        document.querySelector('.total').innerText = `Total: R$ ${formattedTotal}`;
+    }
 });
+   
+
+
+

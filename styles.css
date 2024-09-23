@@ -16,6 +16,10 @@
     padding: 0;
 }
 
+body {
+    background-color: var(--rose-100);
+}
+
 .container {
     display: flex;
     width: 100%;
@@ -44,6 +48,7 @@
     max-width: 100%;
     height: auto;
     border-radius: 5px;
+    object-fit: contain;
 }
 
 .container .card .card-button {
@@ -71,7 +76,7 @@
 }
 
 .container .card .card-price {
-    font-family: 'Red Hat Text';
+    font-family: 'Red Hat Text', sans-serif, serif;
     color: var(--red);
 }
 
@@ -84,6 +89,32 @@
     height: auto;
     background-color: var(--rose-50);
     border-radius: 10px;
+}
+
+#cart {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 300px;
+    height: 400px;
+    background-color: var(--rose-50);
+    margin-top: 20px;
+    margin: 0 auto;
+    border-radius: 15px;
+}
+
+#cart img {
+    margin-top: 20px;
+}
+
+#cart p {
+    margin-top: 20px;
+    font-family: 'Red Hat Text', sans-serif, serif;
+}
+
+#cart .total {
+    margin-top: 10px;
+    font-family: 'Red Hat Text', sans-serif, serif;
 }
 
 footer p {
